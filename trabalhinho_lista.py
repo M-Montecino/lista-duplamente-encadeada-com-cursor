@@ -52,13 +52,34 @@ class ListaDuplamenteEncadeada:
     def acessar_atual(self):
         return self.__cursor
     
-    def inserir_antes_do_atual(self, novo:Elemento):
+    def inserir_antes_do_atual(self, k):
+        novo = Elemento(k)
+
         if self.__cursor is None:
             self.__primeiro = self.__ultimo = self.__cursor = novo
+
+        elif self.__cursor == self.__primeiro:
+            self.__inserir_como_primeiro(k)
+
         else:
-            
+            depois = self.__cursor.proximo
+            novo.anterior = self.__cursor
+            novo.proximo = depois
+            self.__cursor.proximo = novo
+            depois.anterior = novo
     
-    def inserir_apos_atual():
+    def inserir_apos_atual(self, k):
+        novo = Elemento(k)
+
+        if self.__cursor is None:
+            self.__primeiro = self.__ultimo = self.__cursor = novo
+        
+        elif self.__cursor == self.__ultimo:
+            self.__inserir_como_ultimo(k)
+
+        else:
+            antes = self.__cursor.anterior
+            novo.proximo = 
 
     def inserir_como_primeiro():
 
