@@ -62,11 +62,11 @@ class ListaDuplamenteEncadeada:
             self.__inserir_como_primeiro(k)
 
         else:
-            depois = self.__cursor.proximo
-            novo.anterior = self.__cursor
-            novo.proximo = depois
-            self.__cursor.proximo = novo
-            depois.anterior = novo
+            antes = self.__cursor.anterior
+            novo.proximo = self.__cursor
+            novo.anterior = antes
+            self.__cursor.anterior = novo
+            antes.proximo = novo
     
     def inserir_apos_atual(self, k):
         novo = Elemento(k)
@@ -78,10 +78,16 @@ class ListaDuplamenteEncadeada:
             self.__inserir_como_ultimo(k)
 
         else:
-            antes = self.__cursor.anterior
-            novo.proximo = 
+            depois = self.__cursor.proximo
+            novo.anterior = self.__cursor
+            novo.proximo = depois
+            self.__cursor.proximo = novo
+            depois.anterior = novo
 
     def inserir_como_primeiro():
+        novo = Elemento(k)
+
+        
 
     def inserir_como_ultimo():
     
@@ -90,3 +96,5 @@ class ListaDuplamenteEncadeada:
     def excluir_primeiro():
     
     def excluir_ultimo():
+
+    def buscar(self, chave):
