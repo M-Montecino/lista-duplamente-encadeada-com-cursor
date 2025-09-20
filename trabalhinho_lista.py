@@ -69,7 +69,7 @@ class ListaDuplamenteEncadeada:
             self.__primeiro = self.__ultimo = self.__cursor = novo
 
         elif self.__cursor == self.__primeiro:
-            self.__inserir_como_primeiro(k)
+            self.inserir_como_primeiro(k)
 
         else:
             antes = self.__cursor.anterior
@@ -86,7 +86,7 @@ class ListaDuplamenteEncadeada:
             self.__primeiro = self.__ultimo = self.__cursor = novo
         
         elif self.__cursor == self.__ultimo:
-            self.__inserir_como_ultimo(k)
+            self.inserir_como_ultimo(k)
 
         else:
             depois = self.__cursor.proximo
@@ -108,7 +108,7 @@ class ListaDuplamenteEncadeada:
             novo.proximo = self.__cursor
             self.__cursor.anterior = novo
             self.__ir_para_o_primeiro()
-            self.__tamanho +=1
+        self.__tamanho +=1
 
     def inserir_como_ultimo(self, k):
         novo = Elemento(k)
@@ -122,7 +122,7 @@ class ListaDuplamenteEncadeada:
             novo.anterior = self.__cursor
             self.__cursor.proximo = novo
             self.__ir_para_o_ultimo()
-            self.__tamanho += 1
+        self.__tamanho += 1
     
     def excluir_atual(self):
         if self.__cursor == None:
@@ -141,22 +141,27 @@ class ListaDuplamenteEncadeada:
             self.__tamanho -= 1
 
     def excluir_primeiro(self):
+        if self.__primeiro is None:
+            return
+        if self.__primeiro == self.__ultimo:
+            self.__primeiro = self.__ultimo = self.__cursor = None
+        else:
             self.__ir_para_o_primeiro()
-            self.__cursor.proximo = self.__primeiro
+            self.__primeiro = self.__primeiro.proximo
+            self.__primeiro.anterior = None
             self.__ir_para_o_primeiro()
-            self.__tamanho -= 1
+        self.__tamanho -= 1
     
     def excluir_ultimo(self):
+        if self.__ultimo is None:
+            return
         if self.__primeiro == self.__ultimo:
-            self.__primeiro = None
-            self.__ultimo = None
-            self.__cursor = None
-            self.__tamanho = 0
+            self.__primeiro = self.__ultimo = self.__cursor = None
         else:
+            self.__ultimo - self.__ultimo.anterior
+            self.__ultimo.proximo = None
             self.__ir_para_o_ultimo()
-            self.__cursor.anterior = self.__ultimo
-            self.__ir_para_o_ultimo()
-            self.__tamanho -= 1
+        self.__tamanho -= 1
 
     def buscar(self, k):
         if self.__primeiro is None:
