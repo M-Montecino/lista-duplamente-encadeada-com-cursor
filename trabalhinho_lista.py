@@ -3,6 +3,7 @@ class Elemento:
         self.dado = dado
         self.__proximo = None
         self.__anterior = None
+        self.__fake = False
 
     @property
     def proximo(self) -> "Elemento":
@@ -21,6 +22,15 @@ class Elemento:
     def anterior(self, anterior:"Elemento"):
         if isinstance(anterior, Elemento):
             self.__anterior = anterior
+    
+    @property
+    def fake(self) -> bool:
+        return self.__fake
+    
+    @fake.setter
+    def fake(self, fake:bool):
+        if isinstance(fake, bool):
+            self.__fake = fake
 
 class ListaDuplamenteEncadeada:
     def __init__(self):
@@ -117,10 +127,11 @@ class ListaDuplamenteEncadeada:
     def excluir_atual(self):
         if self.__cursor == None:
             return
-        elif self.__cursor == self.__primeiro:
-            self.excluir_primeiro()
         elif self.__cursor == self.__ultimo:
             self.excluir_ultimo()
+        elif self.__cursor == self.__primeiro:
+            self.excluir_primeiro()
+
         else:
             anterior = self.__cursor.anterior
             proximo = self.__cursor.proximo
@@ -130,21 +141,39 @@ class ListaDuplamenteEncadeada:
             self.__tamanho -= 1
 
     def excluir_primeiro(self):
-        if self.__primeiro == self.__ultimo:
-            self.__primeiro = None
-            self.__ultimo = None
-            self.__cursor = None
-            self.__tamanho = 0
-        else:
             self.__ir_para_o_primeiro()
             self.__cursor.proximo = self.__primeiro
             self.__ir_para_o_primeiro()
             self.__tamanho -= 1
     
     def excluir_ultimo(self):
-        self.__ir_para_o_ultimo()
-        self.__cursor.anterior = self.__ultimo
-        self.__ir_para_o_ultimo()
-        self.__tamanho -= 1
+        if self.__primeiro == self.__ultimo:
+            self.__primeiro = None
+            self.__ultimo = None
+            self.__cursor = None
+            self.__tamanho = 0
+        else:
+            self.__ir_para_o_ultimo()
+            self.__cursor.anterior = self.__ultimo
+            self.__ir_para_o_ultimo()
+            self.__tamanho -= 1
 
-    def buscar(self, chave):
+    def buscar(self, k):
+        if self.__primeiro is None:
+            return None
+        
+        fake = Elemento(k)
+        fake.fake = True
+        self.inserir_como_ultimo(fake)
+
+        atual = self.__primeiro
+        while atual.dado != k:
+            atual = atual.proximo
+        self.excluir_ultimo()
+
+        if atual.fake == True:
+            return None
+        else:
+            self.__cursor = atual
+            return atual
+
