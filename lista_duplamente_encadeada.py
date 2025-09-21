@@ -11,7 +11,7 @@ class Elemento:
     
     @proximo.setter
     def proximo(self, proximo:"Elemento"):
-        if isinstance(proximo, Elemento):
+        if isinstance(proximo, Elemento) or proximo is None:
             self.__proximo = proximo
     
     @property
@@ -20,7 +20,7 @@ class Elemento:
     
     @anterior.setter
     def anterior(self, anterior:"Elemento"):
-        if isinstance(anterior, Elemento):
+        if isinstance(anterior, Elemento) or anterior is None:
             self.__anterior = anterior
     
     @property
@@ -70,6 +70,15 @@ class ListaDuplamenteEncadeada:
     def acessar_atual(self):
         return self.__cursor
     
+    def mostra_lista(self):
+        elementos = []
+        self.__ir_para_o_primeiro()
+        atual = self.__cursor
+        while atual is not None:
+            elementos.append(str(atual.dado))
+            atual = atual.proximo
+        return ",".join(elementos)
+
     def inserir_antes_do_atual(self, k):
         novo = Elemento(k)
 
@@ -115,7 +124,7 @@ class ListaDuplamenteEncadeada:
             self.__primeiro = novo
             novo.proximo = self.__cursor
             self.__cursor.anterior = novo
-            self.__ir_para_o_primeiro()
+            self.__cursor = novo
         self.__tamanho +=1
 
     def inserir_como_ultimo(self, k):
@@ -129,7 +138,7 @@ class ListaDuplamenteEncadeada:
             self.__ultimo = novo
             novo.anterior = self.__cursor
             self.__cursor.proximo = novo
-            self.__ir_para_o_ultimo()
+            self.__cursor = novo
         self.__tamanho += 1
 
     def inserir_na_posicao(self, z:int, k):
@@ -141,13 +150,17 @@ class ListaDuplamenteEncadeada:
         if self.__tamanho == 0:
             self.__primeiro = self.__ultimo = self.__cursor = novo
 
-        elif k == 0:
+        elif z == 0:
             self.inserir_como_primeiro()
 
-        elif k == self.__tamanho:
+        elif z == self.__tamanho:
             self.inserir_como_ultimo()
         
         else:
+            self.__cursor = self.__primeiro
+            for i in range(z):
+                self.__cursor = self.__cursor.proximo
+
             antes = self.__cursor.anterior
             novo.proximo = self.__cursor
             novo.anterior = antes
@@ -193,7 +206,7 @@ class ListaDuplamenteEncadeada:
             self.__primeiro = self.__ultimo = self.__cursor = None
         else:
             self.__ir_para_o_ultimo()
-            self.__ultimo - self.__ultimo.anterior
+            self.__ultimo = self.__ultimo.anterior
             self.__ultimo.proximo = None
             self.__ir_para_o_ultimo()
         self.__tamanho -= 1

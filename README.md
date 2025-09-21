@@ -15,7 +15,7 @@ Implementadas as funções:
 - retrocederKPosições( K )
 - irParaPrimeiro()
 - irParaUltimo()
-Que acabaram ficando bem simples, fiz um sistema para prevenção que ele vá além do limite de tamanho da lista, mas não fui muito criativa procurando exceções e admito que talvez alguns casos possam não estar sendo contemplados.
+Que acabaram ficando bem simples, fiz um sistema para prevenção que ele vá além do limite de tamanho da lista, mas não fui muito criativa procurando exceções e admito que talvez alguns casos possam não estar sendo contemplados. Também adicionei a função mostra lista, principalmente para me ajudar a debugar.
 
 3) Funções de inserção:
 Implementadas as funções:
