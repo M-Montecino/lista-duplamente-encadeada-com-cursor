@@ -192,6 +192,7 @@ class ListaDuplamenteEncadeada:
         if self.__primeiro == self.__ultimo:
             self.__primeiro = self.__ultimo = self.__cursor = None
         else:
+            self.__ir_para_o_ultimo()
             self.__ultimo - self.__ultimo.anterior
             self.__ultimo.proximo = None
             self.__ir_para_o_ultimo()
