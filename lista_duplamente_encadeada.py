@@ -40,18 +40,26 @@ class ListaDuplamenteEncadeada:
         self.__cursor = None
 
     def __avancar_k_posicoes(self, k:int):
+        if self.__cursor is None:
+            return None
+        
         for i in range(k):
             if self.__cursor and self.__cursor.proximo:
                 self.__cursor = self.__cursor.proximo
             else:
                 break
+        return self.__cursor
     
     def __retroceder_k_posicoes(self, k:int):
+        if self.__cursor is None:
+            return None
+
         for i in range(k):
             if self.__cursor and self.__cursor.anterior:
                 self.__cursor = self.__cursor.anterior
             else:
                 break
+            return self.__cursor
 
     def __ir_para_o_primeiro(self):
         self.__cursor = self.__primeiro
@@ -123,6 +131,32 @@ class ListaDuplamenteEncadeada:
             self.__cursor.proximo = novo
             self.__ir_para_o_ultimo()
         self.__tamanho += 1
+
+    def inserir_na_posicao(self, z:int, k):
+        if z < 0 or z > self.__tamanho:
+            return None
+        
+        novo = Elemento(k)
+
+        if self.__tamanho == 0:
+            self.__primeiro = self.__ultimo = self.__cursor = novo
+
+        elif k == 0:
+            self.inserir_como_primeiro()
+
+        elif k == self.__tamanho:
+            self.inserir_como_ultimo()
+        
+        else:
+            antes = self.__cursor.anterior
+            novo.proximo = self.__cursor
+            novo.anterior = antes
+            antes.proximo = novo
+            self.__cursor.anterior = novo
+            self.__cursor = novo
+
+        self.__tamanho += 1
+
     
     def excluir_atual(self):
         if self.__cursor == None:
@@ -169,16 +203,18 @@ class ListaDuplamenteEncadeada:
         
         fake = Elemento(k)
         fake.fake = True
-        self.inserir_como_ultimo(fake)
+        self.__ultimo.proximo = fake
+        fake.anterior = self.__ultimo
 
         atual = self.__primeiro
         while atual.dado != k:
             atual = atual.proximo
-        self.excluir_ultimo()
+
+        self.__ultimo.proximo = None
+        fake.anterior = None
 
         if atual.fake == True:
             return None
         else:
             self.__cursor = atual
             return atual
-
